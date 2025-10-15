@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useRef, useState, useEffect, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import Image from "next/image";
 import { Paperclip, Send, X, BotMessageSquare, Loader2 } from "lucide-react";
 
@@ -36,7 +36,7 @@ function SubmitButton() {
 }
 
 export function TriageForm({ onTriageComplete, onTriageStart }: TriageFormProps) {
-  const [state, formAction] = useFormState(performTriage, initialState);
+  const [state, formAction] = useActionState(performTriage, initialState);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);

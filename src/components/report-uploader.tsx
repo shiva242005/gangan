@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useState, useRef, useEffect, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { analyzeReport } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 
@@ -32,7 +32,7 @@ function SubmitButton() {
 
 
 export function ReportUploader() {
-  const [state, formAction] = useFormState(analyzeReport, initialState);
+  const [state, formAction] = useActionState(analyzeReport, initialState);
   const [file, setFile] = useState<File | null>(null);
   const [fileDataUri, setFileDataUri] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
