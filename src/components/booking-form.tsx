@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -44,16 +44,36 @@ const availableTimes = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 P
 export function BookingForm() {
   const { user } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  
+  const doctorIdFromQuery = searchParams.get("doctorId");
 
   const form = useForm<z.infer<typeof bookingSchema>>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       name: user?.displayName || "",
       email: user?.email || "",
+      doctorId: doctorIdFromQuery || "",
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        name: user.displayName || "",
+        email: user.email || "",
+        doctorId: doctorIdFromQuery || form.getValues("doctorId"),
+      });
+    }
+  }, [user, form, doctorIdFromQuery]);
+
+  useEffect(() => {
+    if (doctorIdFromQuery) {
+        form.setValue('doctorId', doctorIdFromQuery);
+    }
+  }, [doctorIdFromQuery, form]);
 
   function onSubmit(values: z.infer<typeof bookingSchema>) {
     setIsLoading(true);
@@ -105,7 +125,7 @@ export function BookingForm() {
             <FormField control={form.control} name="doctorId" render={({ field }) => (
               <FormItem>
                 <FormLabel>Doctor</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger><SelectValue placeholder="Select a doctor" /></SelectTrigger>
                   </FormControl>

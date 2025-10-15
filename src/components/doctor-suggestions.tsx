@@ -60,7 +60,7 @@ export function DoctorSuggestions({ result }: DoctorSuggestionsProps) {
                     </p>
                 </div>
                 <Button asChild>
-                    <Link href="/book-appointment">Book Now</Link>
+                    <Link href={`/book-appointment?doctorId=${doctor.id}`}>Book Now</Link>
                 </Button>
                 </li>
             ))}
