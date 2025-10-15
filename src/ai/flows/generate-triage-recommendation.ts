@@ -50,7 +50,7 @@ const triageRecommendationPrompt = ai.definePrompt({
   name: 'triageRecommendationPrompt',
   input: {schema: GenerateTriageRecommendationInputSchema},
   output: {schema: GenerateTriageRecommendationOutputSchema},
-  prompt: `You are an AI assistant that provides triage recommendations based on the patient's symptoms, image analysis (if available), and whether Ayurveda mode is enabled.
+  prompt: `You are an AI assistant that provides triage recommendations based on the patient\'s symptoms, image analysis (if available), and whether Ayurveda mode is enabled.
 
   Symptom Summary: {{{symptomSummary}}}
   Image Analysis: {{{imageAnalysis}}}

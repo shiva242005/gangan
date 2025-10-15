@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Search, ListFilter, FileDown } from "lucide-react";
-import type { Activity } from "@/lib/placeholder-data";
+import type { Activity } from "@/lib/types";
 
 interface ActivityTableProps {
   data: Activity[];

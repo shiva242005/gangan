@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -6,12 +7,13 @@ import { TriageRecommendation } from "@/components/triage-recommendation";
 import { DoctorSuggestions } from "@/components/doctor-suggestions";
 import type { TriageResult } from "@/lib/types";
 import { Separator } from "./ui/separator";
+import { Loader2 } from "lucide-react";
 
 export default function TriageClient() {
   const [triageResult, setTriageResult] = useState<TriageResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleTriageComplete = (result: TriageResult) => {
+  const handleTriageComplete = (result: TriageResult | null) => {
     setTriageResult(result);
     setIsLoading(false);
   };
@@ -26,11 +28,11 @@ export default function TriageClient() {
       <TriageForm 
         onTriageComplete={handleTriageComplete}
         onTriageStart={handleTriageStart}
-        isLoading={isLoading}
       />
       
       {isLoading && (
-        <div className="text-center">
+        <div className="flex items-center justify-center text-center py-8">
+            <Loader2 className="mr-2 h-5 w-5 animate-spin text-primary" />
             <p className="text-primary">Analyzing your symptoms with AI...</p>
         </div>
       )}

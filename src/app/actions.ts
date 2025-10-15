@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { summarizeSymptomAndImage } from '@/ai/flows/ayurveda-triage';
+import { summarizeSymptomAndImage } from '@/ai/flows/summarize-symptom-and-image';
 import { generateTriageRecommendation } from '@/ai/flows/generate-triage-recommendation';
 import { extractKeyFindingsFromReport } from '@/ai/flows/extract-report-findings';
 import { analyzeImageForSymptoms } from '@/ai/flows/analyze-image';
@@ -17,7 +17,7 @@ export async function performTriage(prevState: any, formData: FormData) {
   const validatedFields = triageSchema.safeParse({
     symptoms: formData.get('symptoms'),
     image: formData.get('image'),
-    ayurvedaMode: formData.get('ayurvedaMode') === 'true',
+    ayurvedaMode: formData.get('ayurvedaMode') === 'on',
   });
   
   if (!validatedFields.success) {

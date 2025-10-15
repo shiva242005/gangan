@@ -41,11 +41,10 @@ const prompt = ai.definePrompt({
   name: 'extractKeyFindingsFromReportPrompt',
   input: {schema: ExtractKeyFindingsFromReportInputSchema},
   output: {schema: ExtractKeyFindingsFromReportOutputSchema},
-  prompt: `You are an AI assistant specialized in analyzing medical reports and extracting key findings.
-  Please analyze the provided medical report and extract the key findings in a concise and informative manner.
+  prompt: `You are an AI assistant specialized in analyzing medical reports and extracting key findings.\nPlease analyze the provided medical report and extract the key findings in a concise and informative manner.
 
-  Medical Report: {{media url=reportDataUri}}
-  `,
+Medical Report: {{media url=reportDataUri}}
+`,
 });
 
 const extractKeyFindingsFromReportFlow = ai.defineFlow(
@@ -59,3 +58,4 @@ const extractKeyFindingsFromReportFlow = ai.defineFlow(
     return output!;
   }
 );
+

@@ -1,37 +1,44 @@
-import type { Doctor } from './types';
+import type { Doctor, Activity } from './types';
+import { PlaceHolderImages } from './placeholder-images';
+
+const doctorImageMap = new Map(PlaceHolderImages.map(img => [img.id, img]));
+
+const getDoctorImage = (id: string) => {
+    return doctorImageMap.get(id) || { imageUrl: '', imageHint: '' };
+};
 
 export const doctors: Doctor[] = [
     {
       id: '1',
       name: 'Dr. Evelyn Reed',
       specialty: 'Dermatologist',
-      avatar: 'https://picsum.photos/seed/doc1/100/100',
-      imageHint: 'doctor portrait'
+      avatar: getDoctorImage('doc1').imageUrl,
+      imageHint: getDoctorImage('doc1').imageHint,
     },
     {
       id: '2',
       name: 'Dr. Marcus Chen',
       specialty: 'Cardiologist',
-      avatar: 'https://picsum.photos/seed/doc2/100/100',
-      imageHint: 'doctor portrait'
+      avatar: getDoctorImage('doc2').imageUrl,
+      imageHint: getDoctorImage('doc2').imageHint,
     },
     {
       id: '3',
       name: 'Dr. Sofia Rodriguez',
       specialty: 'General Physician',
-      avatar: 'https://picsum.photos/seed/doc3/100/100',
-      imageHint: 'doctor portrait'
+      avatar: getDoctorImage('doc3').imageUrl,
+      imageHint: getDoctorImage('doc3').imageHint,
     },
     {
       id: '4',
       name: 'Dr. Kenji Tanaka',
       specialty: 'Pediatrician',
-      avatar: 'https://picsum.photos/seed/doc4/100/100',
-      imageHint: 'doctor portrait'
+      avatar: getDoctorImage('doc4').imageUrl,
+      imageHint: getDoctorImage('doc4').imageHint,
     },
 ];
 
-export const activityLog = [
+export const activityLog: Activity[] = [
   {
     date: "2024-07-21",
     type: "Symptom Check",
@@ -63,5 +70,3 @@ export const activityLog = [
     details: "View Findings",
   },
 ];
-
-export type Activity = typeof activityLog[0];

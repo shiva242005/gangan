@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { analyzeReport } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
@@ -33,42 +34,51 @@ function SubmitButton() {
 export function ReportUploader() {
   const [state, formAction] = useFormState(analyzeReport, initialState);
   const [file, setFile] = useState<File | null>(null);
+  const [fileDataUri, setFileDataUri] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (state?.error) {
+        toast({ title: "Analysis Failed", description: state.error, variant: "destructive" });
+    }
+    if (state?.data) {
+        // Clear form on success
+        setFile(null);
+        setFileDataUri("");
+        if(formRef.current) formRef.current.reset();
+        if(fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }, [state, toast]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      // 4MB limit for demo
-      if (selectedFile.size > 4 * 1024 * 1024) {
+      if (selectedFile.size > 4 * 1024 * 1024) { // 4MB limit
         toast({ title: "File is too large", description: "Please upload a file smaller than 4MB.", variant: "destructive" });
         return;
       }
       setFile(selectedFile);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+          setFileDataUri(reader.result as string);
+      };
+      reader.onerror = () => {
+          toast({ title: "File Read Error", description: "Could not read the selected file.", variant: "destructive" });
+      };
     }
   };
-
-  const handleFormSubmit = async (formData: FormData) => {
+  
+  const handleFormAction = (formData: FormData) => {
     if (!file) {
       toast({ title: "No file selected", description: "Please select a file to upload.", variant: "destructive" });
       return;
     }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = async () => {
-        const dataUri = reader.result as string;
-        formData.set('reportDataUri', dataUri);
-        const result = await analyzeReport(initialState, formData);
-        
-        if (result.error) {
-            toast({ title: "Analysis Failed", description: result.error, variant: "destructive" });
-        }
-    };
-    reader.onerror = () => {
-        toast({ title: "File Read Error", description: "Could not read the selected file.", variant: "destructive" });
-    };
-  };
+    formAction(formData);
+  }
 
   return (
     <div className="max-w-4xl mx-auto grid gap-8 lg:grid-cols-2">
@@ -78,7 +88,8 @@ export function ReportUploader() {
           <CardDescription>Select a PDF or image file of your medical report.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={handleFormSubmit} className="space-y-4">
+          <form ref={formRef} action={handleFormAction} className="space-y-4">
+            <input type="hidden" name="reportDataUri" value={fileDataUri} />
             <div className="flex items-center justify-center w-full">
                 <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-secondary/50">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">

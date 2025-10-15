@@ -13,7 +13,7 @@
 ## Style Guidelines:
 
 - Dark theme background: Very dark, desaturated blue-gray (#121E29) for a professional and calm feel.
-- Primary color: A calming light blue (#64B5F6) that conveys trust and health. 
+- Primary color: A calming light blue (#64B5F6) that conveys trust and health.
 - Accent color: A vibrant yellow (#FFEA00) that complements the blue and signifies urgency or highlights in UI elements, creating a balanced interface.
 - Body and headline font: 'PT Sans' (sans-serif) for a modern and readable experience. Note: currently only Google Fonts are supported.
 - Sticky header and consistent footer to provide easy navigation.

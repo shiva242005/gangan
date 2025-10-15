@@ -1,4 +1,4 @@
-// src/ai/flows/ayurveda-triage.ts
+// src/ai/flows/summarize-symptom-and-image.ts
 'use server';
 
 /**
@@ -54,13 +54,13 @@ const summarizeSymptomAndImagePrompt = ai.definePrompt({
   The user has provided a description of their symptoms:
   {{symptomsDescription}}
 
-  {% if symptomsImage %}
+  {{~#if symptomsImage}}
   The user has also provided an image of their symptoms: {{media url=symptomsImage}}.
-  {% endif %}
+  {{~/if}}
 
-  {% if ayurvedaMode %}
+  {{~#if ayurvedaMode}}
   Ayurveda mode is enabled.  In your summary, incorporate Ayurvedic principles and perspectives.
-  {% endif %}
+  {{~/if}}
 
   Provide a concise summary of the user's symptoms and any relevant information from the image, if provided.
   The summary should be no more than 200 words.

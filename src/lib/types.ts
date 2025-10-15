@@ -11,3 +11,10 @@ export interface Doctor {
 export type TriageResult = GenerateTriageRecommendationOutput & {
   summary: string;
 };
+
+export interface Activity {
+  date: string;
+  type: string;
+  description: string;
+  details: string;
+}
